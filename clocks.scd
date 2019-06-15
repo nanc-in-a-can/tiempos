@@ -58,7 +58,7 @@ Can.converge(\ontoClock,        /*Midiratio*/
 						switch(event[\seconds].asInteger,
 				// aquí es donde componemos los cortes de cada voz;
 							~cutTime[0], {~cuts[0].postln},
-							~cutTime[1], {~cuts[1].postln},
+							~cutTime[1], {~cuts[1].postln;~playSections.("primerSeccion",[1,2,3],1,~string).play},
 							~cutTime[2], {~cuts[2].postln},
 							{"nel"})
 					}),
@@ -95,7 +95,7 @@ Can.converge(\ontoClock,        /*Midiratio*/
 
 (
 ~cuts= [
-	"firstCut",
+	"",
 	"secondCut",
 	"time is a piece of ham that hangs from the ceiling XXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 ];
