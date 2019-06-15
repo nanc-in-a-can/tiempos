@@ -17,7 +17,7 @@ s.boot;
 
 // este es el tiempo de la pieza (en teoría)
 ~initialT = 0;
-~lengthToPlay = 5400; // dos horas de performance
+// ~lengthToPlay = 5400; // dos horas de performance
 
 ///////////
 Pdef(\ontoClock).play
@@ -34,11 +34,11 @@ Pdef(\ontoClock).play
 // Canon 1
 (
 Can.converge(\ontoClock,        /*Midiratio*/
-	Can.melody((1!~lengthToPlay),([0,1]!~lengthToPlay).flatten),
+	Can.melody((1!~durs.sum),([0,1]!~lengthToPlay).flatten),
 	(~lengthToPlay/2).round,
 	Can.convoices([3.5,6.0,8.5,11.0],[-12,-10,-8,-6]),
 	[\clock],
-	"00:10:00:000".asSeconds,
+	~lengthToPlay,//period
 	{|id, canon, instruments, repeat = 1|
 
 		var pBindConvPlayer = {|ins, amp, bufnum, out=0, repeat=1|
@@ -54,13 +54,15 @@ Can.converge(\ontoClock,        /*Midiratio*/
 					\seconds, Pseq([0],1)++Pseries(~initialT,1,~lengthToPlay)++Pseq([0],1),
 					\time, Pfunc({|event|  event[\seconds].asTimeString.wrapExtend(8).postln  }),
 					\cuts, Pfunc({|event|
-
-						switch(event[\seconds].asInteger,
-				// aquí es donde componemos los cortes de cada voz;
-							~cutTime[0], {~cuts[0].postln},
-							~cutTime[1], {~cuts[1].postln;~playSections.("primerSeccion",[1,2,3],1,~string).play},
-							~cutTime[2], {~cuts[2].postln},
-							{"nel"})
+                        // "algo".postln;
+                        switch(event[\seconds].asInteger, *~realschedule);
+                        "no te rompas";
+                        // switch(event[\seconds].asInteger,
+                        //     // aquí es donde componemos los cortes de cada voz;
+                        //     ~cutTime[0], {~cuts[0].postln},
+                        //     ~cutTime[1], {~cuts[1].postln;~playSections.("primerSeccion",[1,2,3],1,~string).play},
+                        //     ~cutTime[2], {~cuts[2].postln},
+                        // {"nel"})
 					}),
 					\timerMsg,
 					Pfunc({|event|   ~netAddr.sendMsg("/timer"++index.asSymbol, event[\time])   }),

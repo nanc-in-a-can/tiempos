@@ -18,16 +18,16 @@
 
 	[first, first.replace("prueba", "TTTTTTTTTTT")].choose
 
-}
+};
 
 
-~playSections= {|duraciones, ratio, string|
+~playSections = {|duraciones, ratio, string|
 	Pbind(\dur, Pseq(duraciones*ratio,1),
 	\string, Pfunc({~stringEditor.(string).postln}), \amp, 0,
 	\MsgLinea1,
 			Pfunc({|event| ~netAddr.sendMsg("/"++ratio.asSymbol, event[\string])})
 	)
-}
+};
 
 
 
