@@ -1,21 +1,21 @@
-///////////
-Pdef(\ontoClock).play
-///////////
-
-(
 // Canon 1
 (
+
 Can.converge(\ontoClock,        /*Midiratio*/
 	Can.melody((1!~durs.sum),([0,1]!~lengthToPlay).flatten),
 	(~lengthToPlay/2).round,
-	Can.convoices([3.5,6.0,8.5,11.0],[-12,-10,-8,-6]),
+	Can.convoices([13,14,15,16],[-12,-10,-8,-6]),
 	[\clock],
 	~lengthToPlay,//period
 	{|id, canon, instruments, repeat = 1|
-
+        var symbols = canon.collect({|voice| voice.durs[0]}).sort.reverse
+        .inject(Dictionary.new, {|acc, d, i| acc.put(d.asSymbol, i.asSymbol)}).debug("durs");
 		var pBindConvPlayer = {|ins, amp, bufnum, out=0, repeat=1|
 			{|voice, index|
-				index.postln;
+                var ratio = voice.durs[0];
+                var durSymbol = symbols.at(ratio.asSymbol);
+                var schedule = ~schedule.(index, durSymbol, ratio);
+                // canon.debug("vocie");
 				Pbind(
 					\instrument, ins,
 					\dur, Pseq(([voice.onset] ++ voice.durs ++ [voice.remainder]), repeat),
@@ -26,8 +26,8 @@ Can.converge(\ontoClock,        /*Midiratio*/
 					\seconds, Pseq([0],1)++Pseries(~initialT,1,~lengthToPlay)++Pseq([0],1),
 					\time, Pfunc({|event|  event[\seconds].asTimeString.wrapExtend(8).postln  }),
 					\cuts, Pfunc({|event|
-                        switch(event[\seconds].asInteger, *~realschedule);
-                        "no te rompas";
+                        switch(event[\seconds].asInteger, *schedule);
+                        "no te rompas, plis";
 					}),
 					\timerMsg,
 					Pfunc({|event|   ~netAddr.sendMsg("/timer"++index.asSymbol, event[\time])   }),
@@ -59,28 +59,4 @@ Can.converge(\ontoClock,        /*Midiratio*/
 	}
 )
 );
-
-(
-~cuts= [
-	"",
-	"secondCut",
-	"time is a piece of ham that hangs from the ceiling XXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-];
-
-~cutTime= [
-	4,
-	8,
-	12
-];
-)
-)
-
-
-
-
-
-
-
-
-
 
