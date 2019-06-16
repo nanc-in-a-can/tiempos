@@ -23,6 +23,8 @@ s.waitForBoot({
     ~path = thisProcess.nowExecutingPath.dirname;
     [
         "/SynthClock/SynthTickTock.scd",
+        "/SynthsHeart/synthsHeart.scd",
+        "/recieveOSCHeart.scd",
         "/rhythms.scd",
         "/canoncitas.scd", // ~citasCan, ~durs, ~schedule, ~realschedule
         "/stringSuperCollider.scd", //~playSections
@@ -34,3 +36,10 @@ s.waitForBoot({
 ///////////
 Pdef(\ontoClock).trace.play
 ///////////
+
+
+
+~startHeartBeatMonitor.();
+~netAddr2.sendMsg("/heart", 700);~netAddr2.sendMsg("/heart", 800);~netAddr2.sendMsg("/heart", 700);
+
+~stopHeartBeatMonitor.();

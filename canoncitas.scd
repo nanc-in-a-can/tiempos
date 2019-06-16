@@ -68,10 +68,8 @@ var scheduleInstr_ = scheduledEventsFromDurs.(dursInstr_);
 };
 
 ~scheduleInstr = {|voiceIndex, symbol, ratio|
-    var instrNotes = instrCan.canon.canon.collect(_.notes)[voiceIndex] - 1;
     [0, {""}]++scheduleInstr_.collect({|event, i|
-        var instruccion = instrucciones[instrNotes[i]];
-        [event, {instruccion}]
+        [event, {instrucciones.choose}]
 }).flatten++[{"nel"}]
 };
 ~dursCitas = dursCits_;

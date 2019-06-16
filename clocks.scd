@@ -31,16 +31,17 @@ Can.converge(\ontoClock,        /*Midiratio*/
                         // "no te rompas, plis";
 					}),
 					\instrucciones, Pfunc({|event|
-						switch(event[\seconds].asInteger, *scheduleCitas)
+						switch(event[\seconds].asInteger, *scheduleInstrucciones)
 					}),
-					\timerMsg,
-					Pfunc({|event| ~netAddr.sendMsg("/timer"++index.asSymbol, event[\time])}),
-					\MsgLinea1,
-					Pfunc({|event| if( event[\citas] != "nel",
+					\timerMsg, Pfunc({|event| ~netAddr.sendMsg("/timer"++index.asSymbol, event[\time])}),
+					\MsgLinea1, Pfunc({|event| if( event[\citas] != "nel",
 						{~netAddr.sendMsg("/voice"++index.asSymbol, event[\citas])},
 						{"noMsg"}
-					)
-					})
+					)}),
+                    \MsgLinea2, Pfunc({|event| if( event[\instrucciones] != "nel",
+						{~netAddr.sendMsg("/instrucciones"++index.asSymbol, event[\instrucciones])},
+						{"noMsg"}
+					)}),
 				)
 			}
 		};
