@@ -14,7 +14,7 @@ s.waitForBoot({
 
     // variables necesarias:
     ~initialT = 0;
-    ~lengthToPlay = 5400;
+    ~lengthToPlay = 70;
     // ~initialT = (~start++":000").asSeconds;
     // ~lengthToPlay = (~playTime++":000").asSeconds;
     ~netAddr.sendMsg("/voice1", ".");

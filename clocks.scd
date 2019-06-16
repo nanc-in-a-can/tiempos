@@ -4,7 +4,7 @@
 Can.converge(\ontoClock,        /*Midiratio*/
 	Can.melody((1!~durs.sum),([0,1]!~lengthToPlay).flatten),
 	(~lengthToPlay/2).round,
-	Can.convoices([13,14,15,16],[-12,-10,-8,-6]),
+	Can.convoices([13, 14, 15, 16],[-12,-10,-8,-6]),
 	[\clock],
 	~lengthToPlay,//period
 	{|id, canon, instruments, repeat = 1|
@@ -18,19 +18,19 @@ Can.converge(\ontoClock,        /*Midiratio*/
                 // canon.debug("vocie");
 				Pbind(
 					\instrument, ins,
-					\dur, Pseq(([voice.onset] ++ voice.durs ++ [voice.remainder]), repeat),
+					\dur, Pseq(([voice.onset] ++ voice.durs), repeat),
 					\midinote, Pseq([\rest]++voice.notes ++ [\rest], inf),
 					\out, out,
 					\amp, amp,
 					\bufnum, bufnum,
-					\seconds, Pseq([0],1)++Pseries(~initialT,1,~lengthToPlay)++Pseq([0],1),
+					\seconds, Pseq([0],1)++Pseries(~initialT,1,~lengthToPlay),
 					\time, Pfunc({|event|  event[\seconds].asTimeString.wrapExtend(8).postln  }),
 					\cuts, Pfunc({|event|
                         switch(event[\seconds].asInteger, *schedule);
-                        "no te rompas, plis";
+                        // "no te rompas, plis";
 					}),
 					\timerMsg,
-					Pfunc({|event|   ~netAddr.sendMsg("/timer"++index.asSymbol, event[\time])   }),
+					Pfunc({|event| ~netAddr.sendMsg("/timer"++index.asSymbol, event[\time])}),
 					\MsgLinea1,
 					Pfunc({|event| if( event[\cuts] != "nel",
 						{~netAddr.sendMsg("/voice"++index.asSymbol, event[\cuts])},

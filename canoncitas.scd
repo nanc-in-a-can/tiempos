@@ -15,19 +15,20 @@
     "Time can only appear at the intersection of various times."
 ];
 var repeats = [7,4,3,6,2,1,5];
-var citasNotes = (1..citas.size).collect({|c, i| c!(repeats[i])}).flatten;
+var citasNotes = (1..citas.size).collect({|c, i| c!(repeats[i])}).flatten.postln;
 var durs = citasNotes.collect({|x, i| [1,2,3,2].wrapAt(i)});
 var citasCan = FluentCan(\citas,
     durs: durs,
     notes: citasNotes,
-    transps: [_.rotate(0), _.rotate(-1), _.rotate(-2), _.rotate(-3)],
+    transps: 0!4,
+   // transps: [_.rotate(0), _.rotate(-1), _.rotate(-2), _.rotate(-3)],
     tempos: [60, 60, 60, 60]*4,
     cp: 7+4+3
 );
 
 //converts a list of durations into moments in time
 var scheduledEventsFromDurs = {|durs|
-    var result = durs.inject([0], {|acc, dur| acc ++ (acc.last + dur)});
+    var result = durs.inject([1], {|acc, dur| acc ++ (acc.last + dur)});
     result[0..result.size -2]; // las event is the moment at which the sequence ends, so we remove it
 };
 
@@ -37,11 +38,18 @@ var schedule_ = scheduledEventsFromDurs.(durs_);
 
 ~schedule = {|voiceIndex, symbol, ratio|
     var citasNotes = citasCan.canon.canon.collect(_.notes)[voiceIndex] - 1;
-    citasNotes.postln;
-    schedule_.collect({|event, i|
+    [0, {""}]++schedule_.collect({|event, i|
         var cita = citas[citasNotes[i]];
-        [event, {~playSections.(symbol, ~rhythms.choose, ratio, cita).play}]
-    }).flatten
+        [event, {cita}]
+}).flatten++[{"nel"}]
+};
+
+~schedule2 = {|voiceIndex, symbol, ratio|
+    var citasNotes = citasCan.canon.canon.collect(_.notes)[voiceIndex] - 1;
+    [0, {""}]++schedule_.collect({|event, i|
+        var cita = citas[citasNotes[i]];
+        [event, {cita}]
+}).flatten++[{"nel"}]
 };
 ~durs = durs_;
 // ~schedule.(0)
