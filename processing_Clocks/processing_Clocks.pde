@@ -14,26 +14,42 @@ int heightSize = 700;
 int index = 0;
 
 // texto
-String text1Canon1 = "  ";
+String texto1 = "  ";
 String timer1 = "  ";
 
-String text2Canon2 = "  ";
+String texto2 = "  ";
 String timer2 = "  ";
 
-String text3Canon3 = "  ";
+String texto3 = "  ";
 String timer3 = "  ";
 
-String text4Canon4 = "  ";
+String texto4 = "  ";
 String timer4 = "  ";
 
 // colores
 
 
+// Coordenadas
+//  texto3
+float tx3_X1 = 10; float tx3_X2 = (width/2)-15;
+float tx3_Y1 = 50; float tx3_Y2 = (height/2)-55;
+// texto2
+float tx2_X1 = 10; float tx2_X2 = (width/2)-15;
+float tx2_Y1 = (height/2)+50; float tx2_Y2 = (height/2)-55;
+// texto1
+float tx1_X1 = (width/2)+10; float tx1_X2 = (width/2)-15;
+float tx1_Y1 = (height/2)+50; float tx1_Y2 = (height/2)-55;
+// text4
+float tx4_X1 = (width/2)+10; float tx4_X2 = (width/2)-15;
+float tx4_Y1 = 50; float tx4_Y2 = (height/2)-55;
+
 /* a NetAddress contains the ip address and port number of a remote location in the network. */
 NetAddress myBroadcastLocation;
 
 void setup() {
-  size(1375, 700);
+//  size(1375, 700);
+fullScreen();
+  
   frameRate(30);
 
   /* create a new instance of oscP5.
@@ -56,33 +72,47 @@ void draw() {
 
   background(0);  
   fill(250,250,250);
+  
+  // heart thing
   ellipse(width/2, height/2, 20+random(-2.5,2.5), 20+random(-2.5,2.5));
+  // delimitar los cuadrantes
   line(width/2+random(-3.5,3.5), 0, width/2+random(-3.5,3.5), height);
   line(0, height/2+random(-3.5,3.5), width, height/2+random(-3.5,3.5));
+  
+  //  Arriba-izquierda Tempo: 15
   fill(250,250,250);
   textSize(30);
   text(timer3, 10+random(-3.5,3.5), 10+random(-3.5,3.5), 1000,500);
+  
   fill(125,125,125);
   textSize(22);
-  text(text3Canon3, 10, 50, (width/2)-15, (height/2)-55);
+  text(texto3, 10, 50, (width/2)-15, (height/2)-55);
+  
+  // Abajo-izquierda  Tempo: 14
   fill(250,250,250);
   textSize(30);
   text(timer2, 10+random(-3.5,3.5), (height/2)+10+random(-3.5,3.5), 1000,500);
+  
   fill(125,125,125);
   textSize(22);
-  text(text2Canon2, 10, (height/2)+50, (width/2)-15, (height/2)-55);
+  text(texto2, 10, (height/2)+50, (width/2)-15, (height/2)-55);
+  
+  // Derecha-Abajo  Tempo: 13
   fill(250,250,250);
   textSize(30);
   text(timer1, (width-170)+10+random(-3.5,3.5), (height/2)+10+random(-3.5,3.5), 1000,500);
+  
   fill(125,125,125);
   textSize(22);
-  text(text1Canon1, (width/2)+10, (height/2)+50, (width/2)-15, (height/2)-55);
+  text(texto1, (width/2)+10, (height/2)+50, (width/2)-15, (height/2)-55);
+  
+  // Derecha-Arriba Tempo: 16
   fill(250,250,250);
   textSize(30);
   text(timer4, (width-170)+10+random(-3.5,3.5), 10+random(-3.5,3.5), 1000,500);
   fill(125,125,125);
   textSize(22);
-  text(text4Canon4, (width/2)+10, 50, (width/2)-15, (height/2)-55);
+  text(texto4, (width/2)+10, 50, (width/2)-15, (height/2)-55);
 
 
 //  fill(200,200,200);
@@ -104,19 +134,19 @@ void oscEvent(OscMessage theOscMessage) {
   if (theOscMessage.checkAddrPattern("/voice0")==true) {
     theOscMessage.print();
 //    println(theOscMessage.addrPattern());
-    text1Canon1 = theOscMessage.get(0).stringValue();
+    texto1 = theOscMessage.get(0).stringValue();
   }
   if (theOscMessage.checkAddrPattern("/voice1")==true) {
     theOscMessage.print();
-    text2Canon2 = theOscMessage.get(0).stringValue();
+    texto2 = theOscMessage.get(0).stringValue();
   }
   if (theOscMessage.checkAddrPattern("/voice2")==true) {
     theOscMessage.print();
-    text3Canon3 = theOscMessage.get(0).stringValue();
+    texto3 = theOscMessage.get(0).stringValue();
   }
   if (theOscMessage.checkAddrPattern("/voice3")==true) {
     theOscMessage.print();
-    text4Canon4 = theOscMessage.get(0).stringValue();
+    texto4 = theOscMessage.get(0).stringValue();
   }
   if (theOscMessage.checkAddrPattern("/timer0")==true) {
     theOscMessage.print();
