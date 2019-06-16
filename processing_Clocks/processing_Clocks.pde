@@ -30,18 +30,36 @@ String timer4 = "  ";
 
 
 // Coordenadas
-//  texto3
+//  citas3 arriba izquierda Tempo: 15
 float tx3_X1 = 10; float tx3_X2 = (width/2)-15;
 float tx3_Y1 = 50; float tx3_Y2 = (height/2)-55;
-// texto2
+// citas2 abajo izquierda Tempo: 14
 float tx2_X1 = 10; float tx2_X2 = (width/2)-15;
-float tx2_Y1 = (height/2)+50; float tx2_Y2 = (height/2)-55;
-// texto1
-float tx1_X1 = (width/2)+10; float tx1_X2 = (width/2)-15;
-float tx1_Y1 = (height/2)+50; float tx1_Y2 = (height/2)-55;
-// text4
-float tx4_X1 = (width/2)+10; float tx4_X2 = (width/2)-15;
+float tx2_Y1 = (height/2)+50; float tx2_Y2 = (height)-55;
+// citas1 Abajo Derecha Tempo: 13
+float tx1_X1 = (width/2)+10; float tx1_X2 = (width)-15;
+float tx1_Y1 = (height/2)+50; float tx1_Y2 = (height)-55;
+// citas4 Arriba Derecha Tempo: 16
+float tx4_X1 = (width/2)+10; float tx4_X2 = (width)-15;
 float tx4_Y1 = 50; float tx4_Y2 = (height/2)-55;
+
+// Instrucciones
+// Instrucciones3 arriba izquierda 
+float inst3_X1 = 10; float inst_X2 = (width/2)-15;
+float inst3_Y1 = (height/2)-150; float inst_Y2 = (height/2)-5;
+// Instrucciones2 abajo izquierda 
+float inst2_X1 = 10; float inst2_X2 = (width/2)-15;
+float inst2_Y1 = (height/2)+200; float inst2_Y2 = height;
+// Instrucciones1 Abajo Derecha
+float inst1_X1 = (width/2)+10; float inst1_X2 = (width)-15;
+float inst1_Y1 = (height/2)+200; float inst1_Y2 = (height);
+// Instrucciones4 Arriba Derecha
+float inst4_X1 = (width/2)+10; float inst4_X2 = (width)-15;
+//float inst4_Y1 = 200; float inst4_Y2 = 
+
+
+
+// quien toca
 
 /* a NetAddress contains the ip address and port number of a remote location in the network. */
 NetAddress myBroadcastLocation;
