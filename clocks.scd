@@ -39,7 +39,7 @@ Can.converge(\ontoClock,        /*Midiratio*/
 						{"noMsg"}
 					)}),
                     \MsgLinea2, Pfunc({|event| if( event[\instrucciones] != "nel",
-						{~netAddr.sendMsg("/instrucciones"++index.asSymbol, event[\instrucciones])},
+						{~netAddr.sendMsg("/instruccion"++index.asSymbol, event[\instrucciones])},
 						{"noMsg"}
 					)}),
 				)

@@ -1,33 +1,19 @@
 
-
-
-// quienes tocan?
-
-
-
 ~lista = ["alejandro", "diego", "aaron", "eduardo", "rossana", "milo", "nefi", "ivan", "emilio", "marianne"];
 
 ~ensambles= ~lista.powerset;
 
-// primer modalidad
 
 ~ensambles1= Pxrand(~ensambles,inf).asStream;
-~ensambles2= Pxrand(~ensambles,inf).asStream;
-~ensambles3= Pxrand(~ensambles,inf).asStream;
-~ensambles4= Pxrand(~ensambles,inf).asStream;
 
-// segunda modalidad
+~lista.scramble[0..2];
 
-// revuelve los nombres y escoge un rango [0..2] escoge los primeros 3
-
-~lista.scramble[0..2]
+~join = {|strArr| strArr.inject("", {|acc, str| if(acc == "", {acc}, {acc++","})+str})};
 
 
 
-
-
-~msg= ~ensambles1.next
-
-~netAddr.sendMsg("/ensemble4", ~msg.next.postln);
-
-~netAddr.sendMsg("/ensemble1", "diego y eduardo".postln);
+//compila para mandar un ensamble
+~netAddr.sendMsg("/ensemble1", ~join.(~ensambles1.next).postln);
+~netAddr.sendMsg("/ensemble2", ~join.(~ensambles1.next).postln);
+~netAddr.sendMsg("/ensemble3", ~join.(~ensambles1.next).postln);
+~netAddr.sendMsg("/ensemble4", ~join.(~ensambles1.next).postln);
