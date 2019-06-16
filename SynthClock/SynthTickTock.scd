@@ -2,10 +2,8 @@
 //load wavetable catalogue;
 var path = thisProcess.nowExecutingPath.dirname;
 ~manecillas = SoundFile.collectIntoBuffers(path++"/tickTockSamples/*",s);
-~manecillas= ~manecillas.collect({|item,iter| item.bufnum})
-)
+~manecillas= ~manecillas.collect({|item,iter| item.bufnum});
 
-(
 SynthDef(\clock, { |freq, amp, out, bufnum|
 	var sig, env;
 
