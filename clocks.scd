@@ -15,6 +15,7 @@ Can.converge(\ontoClock,        /*Midiratio*/
                 var ratio = voice.durs[0];
                 var durSymbol = symbols.at(ratio.asSymbol);
                 var scheduleCitas = ~scheduleCitas.(index, durSymbol, ratio);
+				var scheduleInstrucciones = ~scheduleInstr.(index, durSymbol, ratio);
                 // canon.debug("vocie");
 				Pbind(
 					\instrument, ins,
