@@ -32,5 +32,5 @@ s.waitForBoot({
 )
 
 ///////////
-Pdef(\ontoClock).play
+Pdef(\ontoClock).trace.play
 ///////////

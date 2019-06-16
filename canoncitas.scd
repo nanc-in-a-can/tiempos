@@ -4,22 +4,42 @@
 
     "[l]abour, thus measured by time, does not seem, indeed, to be the labour of different persons, but on the contrary the different working individuals seem to be the mere organs of this labour",
 
-    "Sleep poses the idea of a human need and interval of time that cannot be colonized and harnessed to a massive engine of profitability, and thus remains an incongruous anomaly and site of crisis in the global present.",
+    "Sleep poses the idea of a human need and interval of time that cannot be colonized and harnessed to a massive engine of profitability, and thus remains an incongruous anomaly and site of crisis in the global present",
 
-    "Just as sonic complementarity, but in another way, algorithmic complementarity is a typical dilemma in the rethinking of time: unable to resolve the contradiction, it gives rise to numerous partial solutions, each of which provide a medium of time, and inform their own theory of time.",
+    "Just as sonic complementarity, but in another way, algorithmic complementarity is a typical dilemma in the rethinking of time: unable to resolve the contradiction, it gives rise to numerous partial solutions, each of which provide a medium of time, and inform their own theory of time",
 
-    "Los conceptos siempre nos darán perspectivas sobre el tiempo [...] pero jamás nos darán el tiempo mismo. El tiempo no se puede confinar dentro de una o varias representaciones conceptuales. ¿Qué pasará si tomamos la duración en su forma verdadera, interior, como la sucesión de nuestros estados de conciencia? Porque la duración es eso: es lo que encontramos en el fondo de nosotros mismos, cuando nos miramos, cuando nos permitimos vivir la vida de la conciencia, la vida interior.",
+    "Los conceptos siempre nos dan perspectivas sobre el tiempo [...] pero jamas nos dan el tiempo mismo.Porque la duracion es eso: es lo que encontramos en el fondo de nosotros mismos, cuando nos miramos, cuando nos permitimos vivir la vida de la conciencia, la vida interior",
 
     "Just as a piece of music compresses time [...], so the possibility becomes concrete that things could also be different than they are",
 
-    "Time can only appear at the intersection of various times."
+    "Time can only appear at the intersection of various times"
 ];
-var repeats = [7,4,3,6,2,1,5];
-var citasNotes = (1..citas.size).collect({|c, i| c!(repeats[i])}).flatten.postln;
-var durs = citasNotes.collect({|x, i| [1,2,3,2].wrapAt(i)});
+var instrucciones = [
+	"toca como si el fin de la historia fuera real",
+	"reproduce el sonido de una burbuja temporal explotando",
+	"te subes a un taxi y le dices a un conductor: maneje a donde vamos, le doy las direcciones cuando lleguemos",
+	"tan lento como sea posible",
+	"la flecha del tiempo se rompe",
+	"instrucciones6",
+	"instrucciones7"
+];
+var repeatsCitas = [7,4,3,6,2,1,5];
+var repeatsInstr = repeatsCitas.scramble;
+var citasNotes = (1..citas.size).collect({|c, i| c!(repeatsCitas[i])}).flatten.postln;
+var instrNotes = (1..instrucciones.size).collect({|c, i| c!(repeatsInstr[i])}).flatten.postln;
+var dursCit = citasNotes.collect({|x, i| [1,2,3,2].wrapAt(i)});
+var dursInstr = instrNotes.collect({|x, i| [1,2,3,2].wrapAt(i)});
 var citasCan = FluentCan(\citas,
-    durs: durs,
+    durs: dursCit,
     notes: citasNotes,
+    transps: 0!4,
+   // transps: [_.rotate(0), _.rotate(-1), _.rotate(-2), _.rotate(-3)],
+    tempos: [60, 60, 60, 60]*4,
+    cp: 7+4+3
+);
+var instrCan = FluentCan(\instrucciones,
+    durs: dursInstr,
+    notes: instrNotes,
     transps: 0!4,
    // transps: [_.rotate(0), _.rotate(-1), _.rotate(-2), _.rotate(-3)],
     tempos: [60, 60, 60, 60]*4,
@@ -33,25 +53,31 @@ var scheduledEventsFromDurs = {|durs|
 };
 
 
-var durs_ = (citasCan.canon.canon.collect(_.durs)[0].normalizeSum*~lengthToPlay).collect(_.round);
-var schedule_ = scheduledEventsFromDurs.(durs_);
+var dursCits_ = (citasCan.canon.canon.collect(_.durs)[0].normalizeSum*~lengthToPlay).collect(_.round);
+var dursInstr_ = (instrCan.canon.canon.collect(_.durs)
+[0].normalizeSum*~lengthToPlay).collect(_.round);
+var scheduleCits_ = scheduledEventsFromDurs.(dursCits_);
+var scheduleInstr_ = scheduledEventsFromDurs.(dursInstr_);
 
-~schedule = {|voiceIndex, symbol, ratio|
+~scheduleCitas = {|voiceIndex, symbol, ratio|
     var citasNotes = citasCan.canon.canon.collect(_.notes)[voiceIndex] - 1;
-    [0, {""}]++schedule_.collect({|event, i|
+    [0, {""}]++scheduleCits_.collect({|event, i|
         var cita = citas[citasNotes[i]];
         [event, {cita}]
 }).flatten++[{"nel"}]
 };
 
-~schedule2 = {|voiceIndex, symbol, ratio|
-    var citasNotes = citasCan.canon.canon.collect(_.notes)[voiceIndex] - 1;
-    [0, {""}]++schedule_.collect({|event, i|
-        var cita = citas[citasNotes[i]];
-        [event, {cita}]
+~scheduleInstr = {|voiceIndex, symbol, ratio|
+    var instrNotes = instrCan.canon.canon.collect(_.notes)[voiceIndex] - 1;
+    [0, {""}]++scheduleInstr_.collect({|event, i|
+        var instruccion = instrucciones[instrNotes[i]];
+        [event, {instruccion}]
 }).flatten++[{"nel"}]
 };
-~durs = durs_;
+~dursCitas = dursCits_;
+~dursInstrucciones = dursInstr_;
+
+//~dursCitas.sum == ~dursInstrucciones.sum
 // ~schedule.(0)
 )
 

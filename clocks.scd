@@ -2,7 +2,7 @@
 (
 
 Can.converge(\ontoClock,        /*Midiratio*/
-	Can.melody((1!~durs.sum),([0,1]!~lengthToPlay).flatten),
+	Can.melody((1!~dursCitas.sum),([0,1]!~lengthToPlay).flatten),
 	(~lengthToPlay/2).round,
 	Can.convoices([13, 14, 15, 16],[-12,-10,-8,-6]),
 	[\clock],
@@ -14,7 +14,7 @@ Can.converge(\ontoClock,        /*Midiratio*/
 			{|voice, index|
                 var ratio = voice.durs[0];
                 var durSymbol = symbols.at(ratio.asSymbol);
-                var schedule = ~schedule.(index, durSymbol, ratio);
+                var scheduleCitas = ~scheduleCitas.(index, durSymbol, ratio);
                 // canon.debug("vocie");
 				Pbind(
 					\instrument, ins,
@@ -25,15 +25,18 @@ Can.converge(\ontoClock,        /*Midiratio*/
 					\bufnum, bufnum,
 					\seconds, Pseq([0],1)++Pseries(~initialT,1,~lengthToPlay),
 					\time, Pfunc({|event|  event[\seconds].asTimeString.wrapExtend(8).postln  }),
-					\cuts, Pfunc({|event|
-                        switch(event[\seconds].asInteger, *schedule);
+					\citas, Pfunc({|event|
+                        switch(event[\seconds].asInteger, *scheduleCitas);
                         // "no te rompas, plis";
+					}),
+					\instrucciones, Pfunc({|event|
+						switch(event[\seconds].asInteger, *scheduleCitas)
 					}),
 					\timerMsg,
 					Pfunc({|event| ~netAddr.sendMsg("/timer"++index.asSymbol, event[\time])}),
 					\MsgLinea1,
-					Pfunc({|event| if( event[\cuts] != "nel",
-						{~netAddr.sendMsg("/voice"++index.asSymbol, event[\cuts])},
+					Pfunc({|event| if( event[\citas] != "nel",
+						{~netAddr.sendMsg("/voice"++index.asSymbol, event[\citas])},
 						{"noMsg"}
 					)
 					})
