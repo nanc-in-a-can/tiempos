@@ -24,6 +24,7 @@ s.waitForBoot({
         "/SynthClock/SynthTickTock.scd",
         "/canoncitas.scd", // ~citas, ~durs, ~schedule, ~realschedule
         "/stringSuperCollider.scd", //~playSections
+        "/clocks.scd"
     ].collect(~path++_).do(_.load);
 })
 )
