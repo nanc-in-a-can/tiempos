@@ -17,18 +17,22 @@ int index = 0;
 String texto1 = "  ";
 String timer1 = "  ";
 String instruccion1 = "  ";
+String ensamble1 = " ";
 
 String texto2 = "  ";
 String timer2 = "  ";
 String instruccion2 = "  ";
+String ensamble2 = " ";
 
 String texto3 = "  ";
 String timer3 = "  ";
 String instruccion3 = "  ";
+String ensamble3 = " ";
 
 String texto4 = "  ";
 String timer4 = "  ";
 String instruccion4 = "  ";
+String ensamble4 = " ";
 
 // colores
 
@@ -178,22 +182,22 @@ void draw() {
 // voz3 arriba izquierda
   fill(250, 250, 250);
   textSize(20);
-  text("ensamble3", 250, 10, 1000, 500);
+  text(ensamble3, 250, 10, 1000, 500);
 
 // voz2 abajo izquierda
   fill(250, 250, 250);
   textSize(20);
-  text("ensamble2", 250, (height/2)+10, 1000, 500);
+  text(ensamble2, 250, (height/2)+10, 1000, 500);
 
 // voz1 derecha abajo
   fill(250, 250, 250);
   textSize(20);
-  text("ensamble1", (width/2)+250, (height/2)+10, 1000, 500);
+  text(ensamble1, (width/2)+250, (height/2)+10, 1000, 500);
 
 // voz3 derecha arriba
   fill(250, 250, 250);
   textSize(20);
-  text("ensamble4", (width/2)+250, 10, 1000, 500);
+  text(ensamble4, (width/2)+250, 10, 1000, 500);
 
 
 
@@ -255,5 +259,21 @@ void oscEvent(OscMessage theOscMessage) {
   if (theOscMessage.checkAddrPattern("/instruccion3")==true) {
     theOscMessage.print();
     instruccion4 = theOscMessage.get(0).stringValue();
+  }
+  if (theOscMessage.checkAddrPattern("/ensamble0")==true) {
+    theOscMessage.print();
+    ensamble1 = theOscMessage.get(0).stringValue();
+  }
+  if (theOscMessage.checkAddrPattern("/ensamble1")==true) {
+    theOscMessage.print();
+    ensamble2 = theOscMessage.get(0).stringValue();
+  }
+  if (theOscMessage.checkAddrPattern("/ensamble2")==true) {
+    theOscMessage.print();
+    ensamble3 = theOscMessage.get(0).stringValue();
+  }
+  if (theOscMessage.checkAddrPattern("/ensamble3")==true) {
+    theOscMessage.print();
+    ensamble4 = theOscMessage.get(0).stringValue();
   }
 }
