@@ -2,9 +2,13 @@
 
 import oscP5.*;
 import netP5.*;
+import processing.serial.*;
 
 OscP5 oscP5;
+NetAddress myRemoteLocation;
 
+Serial myPort;        // The serial port
+float inByte = 0; // here the data of the heart will be allocated
 
 
 // lineas
@@ -34,7 +38,9 @@ String timer4 = "  ";
 String instruccion4 = "  ";
 String ensamble4 = " ";
 
-// colores
+// corazón ;
+
+float circulo = 0.0;
 
 
 // Coordenadas
@@ -91,8 +97,15 @@ NetAddress myBroadcastLocation;
 void setup() {
   //  size(1375, 700);
   fullScreen();
-
   frameRate(30);
+
+  // List all the available serial ports
+  println(Serial.list());
+  // Open whatever port is the one you're using.
+  myPort = new Serial(this, Serial.list()[0], 9600);
+  // don't generate a serialEvent() unless you get a newline character:
+  myPort.bufferUntil('\n');
+  // set inital background:
 
   /* create a new instance of oscP5.
    * 12000 is the port number you are listening for incoming osc messages.
@@ -116,7 +129,7 @@ void draw() {
   fill(250, 250, 250);
 
   // heart thing
-  ellipse(width/2, height/2, 20+random(-2.5, 2.5), 20+random(-2.5, 2.5));
+  ellipse((width/2), (height/2), 20+random(-2.5, 2.5)+circulo, 20+random(-2.5, 2.5)+circulo);
   // delimitar los cuadrantes
   line(width/2+random(-3.5, 3.5), 0, width/2+random(-3.5, 3.5), height);
   line(0, height/2+random(-3.5, 3.5), width, height/2+random(-3.5, 3.5));
@@ -206,7 +219,28 @@ void draw() {
   stroke(250, 250, 250);
   // strokeWeight(strokeW);
   // line(coordx1, coordy1, coordx2, coordy2);
+
+
+OscMessage myHeartMessage = new OscMessage("/heart");
+  // everything happens in the serialEvent()
+  // get the ASCII string:
+  String inString = myPort.readStringUntil('\n');
+
+if (inString != null) {
+  
+  inString = trim(inString);
+  
+  if (inString.equals("!")) {
+    circulo = 0.0;
+  }
+  else {
+    inByte = float(inString);
+   circulo =  map(inByte,0,1024,0,100)*2;
+  }
+  
 }
+}
+
 
 
 /* incoming osc message are forwarded to the oscEvent method. */
@@ -276,4 +310,8 @@ void oscEvent(OscMessage theOscMessage) {
     theOscMessage.print();
     ensamble4 = theOscMessage.get(0).stringValue();
   }
+}
+
+void serialEvent (Serial myPort) {
+  
 }
