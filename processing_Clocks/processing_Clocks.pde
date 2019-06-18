@@ -95,8 +95,9 @@ float inst4_Y2 = height;
 NetAddress myBroadcastLocation;
 
 void setup() {
-  //  size(1375, 700);
-  fullScreen();
+  myRemoteLocation = new NetAddress("127.0.0.1",13000);
+    size(1375, 700);
+//  fullScreen();
   frameRate(30);
 
   // List all the available serial ports
@@ -218,7 +219,6 @@ void draw() {
 
   stroke(250, 250, 250);
   // strokeWeight(strokeW);
-  // line(coordx1, coordy1, coordx2, coordy2);
 
 
 OscMessage myHeartMessage = new OscMessage("/heart");
@@ -239,6 +239,9 @@ if (inString != null) {
   }
   
 }
+ myHeartMessage.add(inByte); 
+  oscP5.send(myHeartMessage, myRemoteLocation);
+
 }
 
 
