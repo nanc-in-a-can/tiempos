@@ -42,6 +42,23 @@ String ensamble4 = " ";
 
 float circulo = 0.0;
 
+String[] instrucciones = {
+    "Stacatto",
+    "Pedal",
+    "Pedal irregular",
+    "Sonido que nace, crece, (se reproduce) y muere",
+    "Adornar el pulso",
+    "Cada vez más breve",
+    "Cada vez más largo",
+    "Sólido",
+    "Líquido",
+    "Gaseoso",
+    "Elástico",
+    "Cada vez más largo",
+    "Accelerando",
+    "Rallentando",
+    "Libre"
+};
 
 // Coordenadas
 //  citas3 arriba izquierda Tempo: 15
@@ -103,7 +120,7 @@ void setup() {
   // List all the available serial ports
   println(Serial.list());
   // Open whatever port is the one you're using.
-  myPort = new Serial(this, Serial.list()[0], 9600);
+  myPort = new Serial(this, Serial.list()[1], 9600);
   // don't generate a serialEvent() unless you get a newline character:
   myPort.bufferUntil('\n');
   // set inital background:
@@ -122,6 +139,10 @@ void setup() {
   myBroadcastLocation = new NetAddress("127.0.0.1", 57120);
 }
 
+int dot1 = 0;
+int dot2 = 0;
+int dot3 = 0;
+int dot4 = 0;
 
 void draw() {
 
@@ -143,6 +164,11 @@ void draw() {
   fill(125, 125, 125);
   textSize(22);
   text(texto3, 10, 50, (width/2)-15, (height/2)-55);
+  
+  fill(dot1); noStroke(); ellipse(width - 15, height/2 + 28, 20, 20); if(dot1 > 0) {dot1 = dot1 - 10;};
+  fill(dot2); noStroke(); ellipse(160, height/2 + 28, 20, 20); if(dot2 > 0) {dot2 = dot2 - 10;};
+  fill(dot3); noStroke(); ellipse(160, 28, 20, 20); if(dot3 > 0) {dot3 = dot3 - 10;};
+  fill(dot4); noStroke(); ellipse(width - 15, 28, 20, 20); if(dot4 > 0) {dot4 = dot4 - 10;};
 
   // Abajo-izquierda  Tempo: 14
   fill(250, 250, 250);
@@ -175,28 +201,28 @@ void draw() {
   //inst3 Arriba izquierda
   fill(200, 200, 200);
   textSize(22);
-  text(instruccion3, 10, (height/2)*0.5, (width/2)-15, (height/2));
+  text(instruccion3, 10, (height/2)*0.9, (width/2)-15, (height/2));
 
   // inst2 abajo izquierda
   fill(200, 200, 200);
   textSize(22);
-  text(instruccion2, 10, (height/2)*1.5, (width/2)-15, (height/2));
+  text(instruccion2, 10, (height/2)*1.9, (width/2)-15, (height/2));
 
   // inst1 derecha abajo
   fill(200, 200, 200);
   textSize(22);
-  text(instruccion1, (width/2)+10, (height/2)*1.5, (width)-15, (height)-10);
+  text(instruccion1, (width/2)+10, (height/2)*1.9, (width)-15, (height)-10);
 
   // inst4 derecha arriba
   fill(200, 200, 200);
   textSize(22);
-  text(instruccion4, (width/2)+10, (height/2)*0.5, (width/2)-15, (height/2)-10);
+  text(instruccion4, (width/2)+10, (height/2)*0.9, (width/2)-15, (height/2)-10);
 
 // Ensambles por voz:
 // voz3 arriba izquierda
   fill(250, 250, 250);
   textSize(20);
-  text(ensamble3, 250, 10, 1000, 500);
+  text(ensamble3, 250, 10, 250, 500);
 
 // voz2 abajo izquierda
   fill(250, 250, 250);
@@ -206,12 +232,12 @@ void draw() {
 // voz1 derecha abajo
   fill(250, 250, 250);
   textSize(20);
-  text(ensamble1, (width/2)+250, (height/2)+10, 1000, 500);
+  text(ensamble1, (width/2), (height/2)+10, 1000, 500);
 
-// voz3 derecha arriba
+// voz4 derecha arriba
   fill(250, 250, 250);
   textSize(20);
-  text(ensamble4, (width/2)+250, 10, 1000, 500);
+  text(ensamble4, (width/2), 10, 1000, 500);
 
 
 
@@ -268,34 +294,38 @@ void oscEvent(OscMessage theOscMessage) {
   if (theOscMessage.checkAddrPattern("/timer0")==true) {
     theOscMessage.print();
     timer1 = theOscMessage.get(0).stringValue();
+    dot1 = 250;  
   }
   if (theOscMessage.checkAddrPattern("/timer1")==true) {
     theOscMessage.print();
     timer2 = theOscMessage.get(0).stringValue();
+    dot2 = 250;
   }
   if (theOscMessage.checkAddrPattern("/timer2")==true) {
     theOscMessage.print();
     timer3 = theOscMessage.get(0).stringValue();
+    dot3 = 250;
   }
   if (theOscMessage.checkAddrPattern("/timer3")==true) {
     theOscMessage.print();
     timer4 = theOscMessage.get(0).stringValue();
+    dot4 = 250;
   }
   if (theOscMessage.checkAddrPattern("/instruccion0")==true) {
     theOscMessage.print();
-    instruccion1 = theOscMessage.get(0).stringValue();
+    instruccion1 = instrucciones[theOscMessage.get(0).intValue()];
   }
   if (theOscMessage.checkAddrPattern("/instruccion1")==true) {
     theOscMessage.print();
-    instruccion2 = theOscMessage.get(0).stringValue();
+    instruccion2 = instrucciones[theOscMessage.get(0).intValue()];
   }
   if (theOscMessage.checkAddrPattern("/instruccion2")==true) {
     theOscMessage.print();
-    instruccion3 = theOscMessage.get(0).stringValue();
+    instruccion3 = instrucciones[theOscMessage.get(0).intValue()];
   }
   if (theOscMessage.checkAddrPattern("/instruccion3")==true) {
     theOscMessage.print();
-    instruccion4 = theOscMessage.get(0).stringValue();
+    instruccion4 = instrucciones[theOscMessage.get(0).intValue()];
   }
   if (theOscMessage.checkAddrPattern("/ensamble0")==true) {
     theOscMessage.print();
