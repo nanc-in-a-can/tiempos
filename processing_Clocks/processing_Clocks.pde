@@ -222,7 +222,7 @@ void draw() {
 // voz3 arriba izquierda
   fill(250, 250, 250);
   textSize(20);
-  text(ensamble3, 250, 10, 250, 500);
+  text(ensamble3, 250, 10, 500, 500);
 
 // voz2 abajo izquierda
   fill(250, 250, 250);
