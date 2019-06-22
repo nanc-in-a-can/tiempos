@@ -13,7 +13,7 @@
 	var oldNum= 0.5;
 	var num= 0;
 
-	var o = OSCdef(\cora, { |msg, time, addr, recvPort| //[msg, time, addr, recvPort].postln;
+	var o = OSCdef(\cora, { |msg, time, addr, recvPort| //[msg, time, addr, recvPort];
 		num= msg[1].linlin(0, 512*2, 0.00, 1.00);
 		~heartBeat.(num, oldNum, 0.675);
 		oldNum= num;
@@ -27,13 +27,13 @@
 ~heartBeat= {|numero, numViejo, threshold|
     if( numero>=threshold,
 			{
-            if(numViejo>numero, {"GOT IT".postln;
+            if(numViejo>numero, {"GOT IT";
                 Synth(\bassHeart, [\out, [10,0]]);
             });
 
         },
-        {"below threshold".postln} );
-    ("oldNum now is"+numViejo.asString+"and num is"+numero.asString).postln;
+        {"below threshold"} );
+    ("oldNum now is"+numViejo.asString+"and num is"+numero.asString);
 };
 
 

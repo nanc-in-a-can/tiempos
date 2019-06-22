@@ -33,8 +33,30 @@ s.waitForBoot({
     ].collect(~path++_).do(_.load);
 })
 )
-
+s.boot
+s.options.sampleRate = 48000
+()
 ///////////
-Pdef(\ontoClock).trace.play
+(
+var ens = ~cuatroEnsambles.(~lista);
+var inst = ~instrucciones.choose;
+~mix = Synth(\compander, [\in, 99]);
+~mix.set(\amp, 4);
+Pdef(\ontoClock).play;
+)
 ///////////
 
+
+(
+var ens = ~cuatroEnsambles.(~lista);
+var inst = ~instrucciones.choose;
+~mix.set(\amp, 0);
+~netAddr.sendMsg("/ensamble0", ~join.(ens[0]));
+~netAddr.sendMsg("/ensamble1", ~join.(ens[1]));
+~netAddr.sendMsg("/ensamble2", ~join.(ens[2]));
+~netAddr.sendMsg("/ensamble3", ~join.(ens[3]));
+~netAddr.sendMsg("/instruccion0", inst);
+~netAddr.sendMsg("/instruccion1", inst);
+~netAddr.sendMsg("/instruccion2", inst);
+~netAddr.sendMsg("/instruccion3", inst);
+);

@@ -9,14 +9,13 @@ Can.converge(\ontoClock,        /*Midiratio*/
 	~lengthToPlay,//period
 	{|id, canon, instruments, repeat = 1|
         var symbols = canon.collect({|voice| voice.durs[0]}).sort.reverse
-        .inject(Dictionary.new, {|acc, d, i| acc.put(d.asSymbol, i.asSymbol)}).debug("durs");
+        .inject(Dictionary.new, {|acc, d, i| acc.put(d.asSymbol, i.asSymbol)});
 		var pBindConvPlayer = {|ins, amp, bufnum, out=0, repeat=1|
 			{|voice, index|
                 var ratio = voice.durs[0];
                 var durSymbol = symbols.at(ratio.asSymbol);
                 var scheduleCitas = ~scheduleCitas.(index, durSymbol, ratio);
 				var scheduleInstrucciones = ~scheduleInstr.(index, durSymbol, ratio);
-                // canon.debug("vocie");
 				Pbind(
 					\instrument, ins,
 					\dur, Pseq(([voice.onset] ++ voice.durs), repeat),
@@ -25,7 +24,7 @@ Can.converge(\ontoClock,        /*Midiratio*/
 					\amp, amp,
 					\bufnum, bufnum,
 					\seconds, Pseq([0],1)++Pseries(~initialT,1,~lengthToPlay),
-					\time, Pfunc({|event|  event[\seconds].asTimeString.wrapExtend(8).postln  }),
+					\time, Pfunc({|event|  event[\seconds].asTimeString.wrapExtend(8)}),
 					\citas, Pfunc({|event|
                         switch(event[\seconds].asInteger, *scheduleCitas);
                         // "no te rompas, plis";
@@ -53,13 +52,13 @@ Can.converge(\ontoClock,        /*Midiratio*/
 				\clock,
 				bufnum: Pseq(~manecillas[0..5], inf),
 				amp: 1,
-				out: 0,
+				out: 99,
 				repeat: repeat
 			)
 		);
 
 
-		Pdef(id ? UniqueID.next.asSymbol, Ppar(conv.postln), repeat);
+		Pdef(id ? UniqueID.next.asSymbol, Ppar(conv), repeat);
 
 	}
 )

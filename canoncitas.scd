@@ -25,8 +25,8 @@ var instrucciones = [
 ];
 var repeatsCitas = [7,4,3,6,2,1,5];
 var repeatsInstr = repeatsCitas.scramble;
-var citasNotes = (1..citas.size).collect({|c, i| c!(repeatsCitas[i])}).flatten.postln;
-var instrNotes = (1..instrucciones.size).collect({|c, i| c!(repeatsInstr[i])}).flatten.postln;
+var citasNotes = (1..citas.size).collect({|c, i| c!(repeatsCitas[i])}).flatten;
+var instrNotes = (1..instrucciones.size).collect({|c, i| c!(repeatsInstr[i])}).flatten;
 var dursCit = citasNotes.collect({|x, i| [1,2,3,2].wrapAt(i)});
 var dursInstr = instrNotes.collect({|x, i| [1,2,3,2].wrapAt(i)});
 var citasCan = FluentCan(\citas,

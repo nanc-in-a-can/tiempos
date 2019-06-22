@@ -27,7 +27,7 @@
         \dur, Pseq([1], 1),
         \string, string,
         \amp, 0,
-        \MsgLinea1, Pfunc({|event| ~netAddr.sendMsg(("/voice"++symbol).postln, event[\string].postln)})
+        \MsgLinea1, Pfunc({|event| ~netAddr.sendMsg(("/voice"++symbol), event[\string])})
     )
 };
 
@@ -35,7 +35,7 @@
 
 ~playSections = {|symbol, duraciones, ratio, string|
 	Pbind(\dur, Pseq(duraciones*ratio,inf),
-	\string, Pfunc({~stringEditor.(string).postln}), \amp, 0,
+	\string, Pfunc({~stringEditor.(string)}), \amp, 0,
 	\MsgLinea1,
 			Pfunc({|event| ~netAddr.sendMsg("/voice"++symbol, event[\string])})
 	)

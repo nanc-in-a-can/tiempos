@@ -120,7 +120,7 @@ void setup() {
   // List all the available serial ports
   println(Serial.list());
   // Open whatever port is the one you're using.
-  myPort = new Serial(this, Serial.list()[1], 9600);
+  myPort = new Serial(this, "/dev/cu.usbserial-AI04Y0YG", 9600);
   // don't generate a serialEvent() unless you get a newline character:
   myPort.bufferUntil('\n');
   // set inital background:
@@ -346,5 +346,5 @@ void oscEvent(OscMessage theOscMessage) {
 }
 
 void serialEvent (Serial myPort) {
-  
+  println("meco");
 }
