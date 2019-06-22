@@ -37,10 +37,42 @@
 ~cuatroEnsambles.(~lista);
 )
 
+
+(
+~instrucciones = [
+    "Stacatto",
+    "Pedal",
+    "Pedal irregular",
+    "Sonido que nace, crece, (se reproduce) y muere",
+    "Adornar el pulso",
+    "Cada vez más breve",
+    "Cada vez más largo",
+    "Sólido",
+    "Líquido",
+    "Gaseoso",
+    "Elástico",
+    "Cada vez más largo",
+    "Accelerando",
+    "Rallentando",
+    "Libre"
+].collect({|i, index| index});
+)
+
+
+
+
+
+
+
 (
 var ens = ~cuatroEnsambles.(~lista);
+var inst = ~instrucciones.choose;
 ~netAddr.sendMsg("/ensamble0", ~join.(ens[0]).postln);
 ~netAddr.sendMsg("/ensamble1", ~join.(ens[1]).postln);
 ~netAddr.sendMsg("/ensamble2", ~join.(ens[2]).postln);
 ~netAddr.sendMsg("/ensamble3", ~join.(ens[3]).postln);
+~netAddr.sendMsg("/instruccion0", inst);
+~netAddr.sendMsg("/instruccion1", inst);
+~netAddr.sendMsg("/instruccion2", inst);
+~netAddr.sendMsg("/instruccion3", inst);
 )
